@@ -7,15 +7,15 @@
         <button type="button" data-bs-target="#heroControls" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#heroControls" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
-      <div class="carousel-inner">
+      <div class="carousel-inner" style="text-align: center !important;">
         <div class="carousel-item active">
-          <img class="img-fluid" src="~/assets/jum1.jpg" alt="First-slide" title="First-slide">
+          <img class="img-fluid" src="~/assets/dress.jpg" alt="First-slide" title="First-slide">
         </div>
         <div class="carousel-item">
-          <img class="img-fluid" src="~/assets/jum2.jpg" alt="Second-slide" title="Second-slide">
+          <img class="img-fluid" src="~/assets/poshcloset.jpg" alt="Second-slide" title="Second-slide">
         </div>
         <div class="carousel-item">
-          <img class="img-fluid" src="~/assets/jum3.jpg" alt="Third-slide" title="Third-slide">
+          <img class="img-fluid" src="~/assets/shopping.jpg" alt="Third-slide" title="Third-slide">
         </div>
       </div>
     </div>
@@ -25,6 +25,8 @@
 <style scoped>
 .img-fluid {
   min-width: 800px !important;
+  max-width: 65% !important;
+  margin: auto !important;
 }
 
 .carousel-indicators button {

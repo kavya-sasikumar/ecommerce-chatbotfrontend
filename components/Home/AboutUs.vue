@@ -6,7 +6,7 @@
         <img class="float-lg-right" src="~/assets/new.jpg" alt="home-img" title="home-img" loading="lazy">
       </div>
       <div class="col-12 col-sm-6">
-        <h2>New minimalist<br>–components</h2>
+        <h2>Intelligent Kavya<br>–components</h2>
         <p>Gravity will force your feet to the ground. Don’t be afraid, your mind will find your freedom.
           You won’t miss a sunrise. You’ll rise with the sun.
           <br>You’ll never run away from the storm. You will flow with the wind.

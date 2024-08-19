@@ -1,6 +1,6 @@
 <template>
     <div class="bag" @click="$emit('open')">
-        <img class="pb-1" src="https://img.icons8.com/ultraviolet/70/shopping-cart.png" alt="move-by-trolley"
+        <img class="" src="../../assets/grocery-store.png" alt="move-by-trolley"
             title="cart-trolley">
         <span class="mb-3" v-if="store.itemsNumber">{{ store.itemsNumber }}</span>
     </div>
@@ -33,7 +33,7 @@ defineEmits(['open'])
 
     img {
         cursor: pointer;
-        width: 30px;
+        width: 27px;
         height: auto;
     }
 }

@@ -47,12 +47,18 @@ nav {
   justify-content: space-between;
 }
 
+@font-face {
+  font-family: avenir-heavy;
+  src: url(/assets/avenir/AvenirLTProHeavy.otf);
+}
+
 .navbar-item {
   a {
     margin-left: 13px;
     font-size: 17px;
     text-decoration: none;
-    color: black;
+    color: #7D2248;
+    font-family: avenir-heavy;
   }
 
   .bc {

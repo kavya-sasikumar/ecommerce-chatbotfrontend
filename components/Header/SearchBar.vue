@@ -20,12 +20,12 @@
     margin-right: 10px;
 
     &:focus {
-        width: 160px;
+        width: 360px;
         font-family: inherit;
         padding-left: 30px;
         border: solid 1px #ccc;
         background-color: #fff;
-        border-color: #98ccfd;
+        border-color: #7D2248;
         -webkit-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
         -moz-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
         box-shadow: 0 0 5px rgba(109, 207, 246, .5);
