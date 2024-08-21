@@ -38,7 +38,7 @@ function submit(): void {
 .newsletter-area {
   position: relative;
   z-index: 1;
-  background-color: #dbf0fa;
+  background-color: #7D2248;
   padding: 75px;
 
   .newsletter-text {
@@ -48,11 +48,11 @@ function submit(): void {
     h2 {
       font-size: 36px;
       margin-bottom: 10px;
-      color: #2c3539;
+      color: #ffffff;
     }
 
     p {
-      color: #2c3539;
+      color: #ffffff;
       margin-bottom: 0;
     }
   }
@@ -66,14 +66,18 @@ function submit(): void {
         width: 100%;
         height: 50px;
         background-color: inherit !important;
-        color: #2c3539;
+        color: #ffffff;
         font-size: 20px;
         font-style: italic;
         border: none;
         outline: none;
-        border-bottom: 2px solid #2c3539;
+        border-bottom: 2px solid #ffffff;
         padding: 0 30px;
       }
+    }
+
+     ::placeholder {
+      color: #ffffff;
     }
 
     .input-button {
@@ -93,7 +97,7 @@ function submit(): void {
 
       &:hover,
       &:focus {
-        background-color: inherit;
+        background-color: #ffffff;
         color: black;
       }
     }

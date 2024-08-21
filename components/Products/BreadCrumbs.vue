@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="pt-3 text-center">New arrivals</h1>
+    <h1 class="pt-3 text-center" style="color: #7D2248 !important;">Trending</h1>
     <nav class="d-flex justify-content-center" aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">

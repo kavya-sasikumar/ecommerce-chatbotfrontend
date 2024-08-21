@@ -76,25 +76,37 @@
       <div class="row justify-content-between">
         <div class="col-xl-7 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="tiny-footer">
-            <p>Copyright © All Rights Reserved 2020 </p>
+            <p>Copyright © All Rights Reserved {{ currentYear }} </p>
           </div>
         </div>
         <div class="col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 text-right">
           <div class="social-info">
-            <strong>Get social</strong>
-            <img width="35" height="25" loading="lazy" src="@/assets/twitter.png" alt="twitter-icon" title="twitter-icon">
+            <strong>Stay connected!</strong>
+            <img width="35" height="25" loading="lazy" src="@/assets/x.png" alt="twitter-icon" title="twitter-icon">
             <img width="35" height="25" loading="lazy" src="@/assets/pinterest.png" alt="pinterest-icon"
               title="pinterest-icon">
             <img width="35" height="25" loading="lazy" src="@/assets/facebook.png" alt="facebook-icon"
               title="facebook-icon">
             <img width="35" height="25" loading="lazy" src="@/assets/insta.png" alt="instagram-icon"
               title="instagram-icon">
+            <img width="35" height="25" loading="lazy" src="@/assets/linkedin.png" alt="linkedin-icon"
+              title="linkedin-icon">
           </div>
         </div>
       </div>
     </div>
   </footer>
 </template>
+
+<script>
+export default {
+  computed: {
+    currentYear() {
+      return new Date().getFullYear(); // Get the current year
+    }
+  }
+}
+</script>
 
 <style scoped lang="scss">
 .footer_area {
