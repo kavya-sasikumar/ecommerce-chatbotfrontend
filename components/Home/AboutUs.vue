@@ -8,11 +8,11 @@
       <div class="col-12 col-sm-6">
         <h2>About Us</h2>
         <p>Kavess is a personalized chatbot that instantly caters to your fashion needs. 
-          You won’t miss a sunrise. You’ll rise with the sun.
-          <br>You’ll never run away from the storm. You will flow with the wind.
-          <br>Don’t hesitate to pause. Follow the flow of the moment.
-          And then, take the first step towards the new you.
-        </p>
+        Whether you’re on the hunt for the latest trends, fashion advice, or stylistic goals, Kavess will proudly be your best friend. 
+        Our chatbot receives a taste of your type in clothing, offering customized suggestions for your preference in style. 
+        With Kavess, a variety of the trendiest, classic options are easily made available to you, providing you with an enjoyable shopping experience. 
+        We strive to make fashion simple, accesible, and fearlessly yours.
+       </p>
       </div>
     </div>
     <div class="row p-4">
