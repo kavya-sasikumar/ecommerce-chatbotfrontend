@@ -11,7 +11,7 @@
         Whether you’re on the hunt for the latest trends, fashion advice, or stylistic goals, Kavess will proudly be your best friend. 
         Our chatbot receives a taste of your type in clothing, offering customized suggestions for your preference in style. 
         With Kavess, a variety of the trendiest, classic options are easily made available to you, providing you with an enjoyable shopping experience. 
-        We strive to make fashion simple, accesible, and fearlessly yours.
+        We strive to make fashion simple, accessible, and fearlessly yours.
        </p>
       </div>
     </div>
