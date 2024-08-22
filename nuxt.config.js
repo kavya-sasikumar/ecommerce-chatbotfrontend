@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       siteUrl:
-        process.env.NUXT_PUBLIC_SITE_URL || "https://vue-ecom.vercel.app",
+        process.env.NUXT_PUBLIC_SITE_URL ,
       siteName: "V-Store",
       siteDescription:
         "A Full StoreFront built with Nuxt 3 + Pinia 2 + Bootstrap 5....",

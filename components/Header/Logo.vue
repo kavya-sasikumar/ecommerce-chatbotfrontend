@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-brand-container">
     <span class="navbar-brand py-0 pl-5">
-      <img src="~/assets/kavesslogo.png" width="100" height="100" alt="site-logo" title="site-logo">
+      <img src="~/assets/kavesslogo.png" width="50" height="50" alt="site-logo" title="site-logo">
     </span>
   </div>
 </template>
