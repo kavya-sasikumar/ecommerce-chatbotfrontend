@@ -6,8 +6,8 @@
         <img class="float-lg-right" src="~/assets/brandy.jpg" alt="home-img" title="home-img" loading="lazy">
       </div>
       <div class="col-12 col-sm-6">
-        <h2>About Us</h2>
-        <p>Kavess is a personalized chatbot that instantly caters to your fashion needs. 
+        <h2 style="font-family: avenir-heavy; color: #7D2248;">About Us</h2>
+        <p style="font-family: avenir-heavy;">Kavess is a personalized chatbot that instantly caters to your fashion needs. 
         Whether you’re on the hunt for the latest trends, fashion advice, or stylistic goals, Kavess will proudly be your best friend. 
         Our chatbot receives a taste of your type in clothing, offering customized suggestions for your preference in style. 
         With Kavess, a variety of the trendiest, classic options are easily made available to you, providing you with an enjoyable shopping experience. 
@@ -19,12 +19,8 @@
       <div
         class="col-12 col-sm-6 text-sm-right text-md-right ml-sm-0 ml-md-5 ml-lg-5 ml-xl-5 text-lg-right order-sm-first order-12"
         style="margin-right: 0%; z-index:1;">
-        <h2>Save Space<br>more freedom</h2>
-        <p>Gravity will force your feet to the ground. Don’t be afraid, your mind will find your freedom.
-          You won’t miss a sunrise. You’ll rise with the sun.
-          You’ll never run away from the storm. You will flow with the wind.
-          Don’t hesitate to pause. Follow the flow of the moment.
-          And then, take the first step towards the new you.
+        <h2 style="font-family: avenir-heavy; color: #7D2248;">Meet your<br>Personal Stylist</h2>
+        <p style="font-family: avenir-heavy;">Your journey with fashion is going to be revolutionized with our AI-powered stylist chatbot. With all of the latest developments in AI technology, it offers personalized style recommendations that reflect your personal preferences. Our chatbot is your go-to fashion guide, whether you're looking to identify the perfect outfit for an upcoming event, have trouble choosing matching accessories, or simply want to stay updated on the latest trends. It identifies your unique sense of style, provides specifically chosen outfits, and helps you in making confident fashion choices in real time. Change your wardrobe with a few quick taps!
         </p>
       </div>
       <div class="col-6">

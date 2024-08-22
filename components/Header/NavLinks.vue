@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-
 const navLinks = [
   {
     name: 'Home',
@@ -20,4 +19,5 @@ const navLinks = [
     Link: '/contact'
   }
 ];
+
 </script>
