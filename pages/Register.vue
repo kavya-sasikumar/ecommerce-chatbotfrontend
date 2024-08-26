@@ -54,11 +54,25 @@
 </template>
 
 <script setup>
-const { $nt } = useNuxtApp()
+//const { $toast } = useNuxtApp();
 
 definePageMeta({
     title: 'Register'
 })
+
+onMounted(async () => {
+
+  //await nextTick();
+
+  const token = localStorage.getItem('token')
+    
+    if (token) {
+      navigateTo('/products')
+      setTimeout(() => {
+        alert('User Already Logged In');
+      }, 1000);
+    }
+});
 
 const user = reactive({})
 
@@ -73,14 +87,13 @@ const register = async () => {
     if (error.value) {
       throw new Error(error.value.message)
     }
-    $nt.show('Successful')
-
-    setTimeout(() => {
-      router.push('/login')
-    }, 1000)
+    //$toast('This is a success message!', { type: 'success', duration: 3000 });
+  navigateTo('/login')
   } catch (error) {
     console.error('Registration failed:', error.response ? error.response.data : error.message)
-    $nt.show('Error')
+    //$toast('This is an error message!', { type: 'error', duration: 3000 });
+    alert('Error Registering User');
+    
   }
 }
 </script>

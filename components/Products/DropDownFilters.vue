@@ -1,9 +1,9 @@
 <template>
     <div class="d-flex">
         <div class="dropdown flex-fill px-4 px-sm-0">
-            <a class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            <a class="btn btn-light dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" style="font-family: avenir-light;"
                 aria-haspopup="true" aria-expanded="false">SORT BY
-                <span style="color:#f2be00;">{{ sort }}</span>
+                <span style="color:#7D2248;">{{ sort }}</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" @click="sortBy('newset')" value="newset">Newest</a>

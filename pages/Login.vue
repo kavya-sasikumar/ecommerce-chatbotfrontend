@@ -35,11 +35,46 @@ definePageMeta({
     title: 'Log-In'
 })
 
+import { useNuxtApp } from '#app'
+const nuxtApp = useNuxtApp()
+
+onMounted(async () => {
+
+  //await nextTick();
+
+  const token = localStorage.getItem('token')
+    
+    if (token) {
+      navigateTo('/products')
+      setTimeout(() => {
+        alert('User Already Logged In');
+      }, 1000);
+    }
+});
+
 const email = ref('')
 const password = ref('')
 
 const login = async () => {
-  
+  try {
+    let credentials={"email":email, "password":password}
+    const { data, error } = await useFetch('http://localhost:8000/auth/login/', {
+      method: 'POST',
+      body: credentials
+    })
+    console.log(data.value.key)
+    localStorage.setItem("token", data.value.key);
+    if (error.value) {
+      throw new Error(error.value.message)
+    }
+    //$toast('This is a success message!', { type: 'success', duration: 3000 });
+  navigateTo('/products')
+  } catch (error) {
+    console.error('Login failed:', error.response ? error.response.data : error.message)
+    //$toast('This is an error message!', { type: 'error', duration: 3000 });
+    alert('Error Logging In User');
+    
+  }
 }
 </script>
 

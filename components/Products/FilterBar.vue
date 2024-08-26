@@ -3,7 +3,7 @@
         <div class="card-selector">
             <div class="card-body p-5">
                 <div class="search-title">
-                    <h4>Catagories +</h4>
+                    <h4>Categories +</h4>
                     <h6 v-for="item in info.types" :key="item.name" @click="" :value="item.value">
                         {{ item.name }}
                     </h6>

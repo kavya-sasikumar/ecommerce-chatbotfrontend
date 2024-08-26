@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["store"],
   },
-  modules: ["@nuxt/devtools", "@pinia/nuxt", '@cssninja/nuxt-toaster'],
+  modules: ["@nuxt/devtools", "@pinia/nuxt"],
   extends: ["nuxt-seo-kit"],
   routeRules: {
     "/**": { robots: "index, follow" },
