@@ -47,10 +47,11 @@ const info = reactive({
 </script>
 <style scoped>
 .card-selector {
-    color: #DCDCDC;
+    color: #ffffff;
     height: 40rem;
-    background: #2c3539 !important;
+    background: #7D2248 !important;
     box-shadow: 0 8px 6px 0 rgba(0, 0, 0, 0.1), 0 26px 70px 0 rgba(0, 0, 0, 0.69);
+    font-family: avenir-heavy;
 }
 
 .search-title {

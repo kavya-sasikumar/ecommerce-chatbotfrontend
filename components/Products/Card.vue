@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-content-center text-center">
     <div v-for="item in cards" class="col-10 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-4 pb-3" :key="item.id">
-      <div class="card">
+      <!-- <div class="card">
         <img class="card-img-top" :src="useAsset(item.img as string)" alt="Card-image-cap" title="Card-image-cap"
           loading="lazy">
         <div class="overlay">
@@ -12,25 +12,47 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
-          <p class="card-text">${{ item.price }}</p>
+          <p class="card-text">
+            <span class="price-text">${{ item.price }}</span>
+         </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { Product } from '../types';
+<script setup>
+// import { Product } from '../types';
 
+const cards = reactive([]);
 
 const store = useMainStore()
 
+const getProducts = async () => {
+  try {
+    const { data, error } = await useFetch('http://localhost:8000/api/v1/products/', {
+     lazy: true,
+     server: false
+    })
+    console.log(data)
+    console.log(error)
+  } catch (error) {
+    console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
+    alert('Error Getting Products');
+  }
+}
 
-defineProps<{
-  cards: Product[]
-}>()
+onBeforeMount(async () => {
+  getProducts();
+});
+
+
+//defineProps<{
+  //cards: Product[]
+//}>()
 
 </script>
+
 
 <style lang="scss">
 /* Card Style */
@@ -38,6 +60,12 @@ defineProps<{
   transition: 300ms;
   position: relative;
   overflow: hidden;
+  font-family: avenir;
+  color: #7D2248;
+
+.price-text {
+  color:#232b34
+}
 
   img {
     z-index: 1;
@@ -64,7 +92,7 @@ defineProps<{
     align-items: center;
     width: 100%;
     height: 70%;
-    background-color: #232b34;
+    background-color: #7D2248;
     opacity: 0;
     z-index: 100;
     transition: all 0.3s ease-in;

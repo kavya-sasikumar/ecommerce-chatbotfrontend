@@ -15,5 +15,12 @@ defineEmits<{
 <style scoped>
 .btn-outline-secondary {
     border-radius: 0 !important;
+    color: #7D2248 !important;
+    border-color: #7D2248 !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #7D2248 !important;
+    color: #ffffff !important;
 }
 </style>
