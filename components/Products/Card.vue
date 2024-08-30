@@ -1,13 +1,13 @@
 <template>
   <div class="row justify-content-center text-center">
-    <div v-for="item in cards" class="col-10 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-4 pb-3" :key="item.id">
-      <!-- <div class="card">
-        <img class="card-img-top" :src="useAsset(item.img as string)" alt="Card-image-cap" title="Card-image-cap"
+    <div v-for="item in cards.value" class="col-10 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-4 pb-3" :key="item.id">
+      <div class="card">
+        <img class="card-img-top" :src="item.image" alt="Card-image-cap" title="Card-image-cap"
           loading="lazy">
         <div class="overlay">
           <button type="button" class="btn btn-light btn-lg" @click="store.inCart(item)">Add +</button>
           <NuxtLink :to="`/details/${item.id}`">
-            <button type="button" @click="store.addtoInfo(item.id as number)" class="btn btn-light btn-lg">Info</button>
+            <button type="button" @click="store.addtoInfo(item.id)" class="btn btn-light btn-lg">Info</button>
           </NuxtLink>
         </div>
         <div class="card-body">
@@ -16,7 +16,7 @@
             <span class="price-text">${{ item.price }}</span>
          </p>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -30,12 +30,10 @@ const store = useMainStore()
 
 const getProducts = async () => {
   try {
-    const { data, error } = await useFetch('http://localhost:8000/api/v1/products/', {
-     lazy: true,
-     server: false
-    })
-    console.log(data)
-    console.log(error)
+    const { data, error } = await useFetch('http://localhost:8000/api/v1/products/')
+    console.log(data.value)
+    cards.value = data.value;
+    console.log(cards)
   } catch (error) {
     console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
     alert('Error Getting Products');
@@ -43,6 +41,7 @@ const getProducts = async () => {
 }
 
 onBeforeMount(async () => {
+  await nextTick();
   getProducts();
 });
 
