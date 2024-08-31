@@ -25,6 +25,7 @@
 // import { Product } from '../types';
 
 const cards = reactive([]);
+let nextPage = reactive('');
 
 const store = useMainStore()
 
@@ -32,12 +33,24 @@ const getProducts = async () => {
   try {
     const { data, error } = await useFetch('http://localhost:8000/api/v1/products/')
     console.log(data.value)
-    cards.value = data.value;
+    cards.value = data.value.results;
     console.log(cards)
+    if(data.value.links.next != null){
+      nextPage = data.value.links.next;
+      localStorage.setItem('nextPage', nextPage);
+    }else{
+      nextPage = null;
+      localStorage.setItem('nextPage', nextPage.toString());
+    }
+    console.log(nextPage)
   } catch (error) {
     console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
     alert('Error Getting Products');
   }
+}
+
+const getMoreProducts = async () => {
+  console.log('Gotten');
 }
 
 onBeforeMount(async () => {
@@ -49,6 +62,10 @@ onBeforeMount(async () => {
 //defineProps<{
   //cards: Product[]
 //}>()
+
+defineExpose({
+  getMoreProducts,
+});
 
 </script>
 

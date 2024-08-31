@@ -6,8 +6,8 @@
     <div v-if="grid.cards.length !== 0" class="main-grid d-flex p-3">
       <ProductsFilterBar />
       <div class="col-11 col-md-12 col-lg-8 mx-auto" style="margin-left:25px !important">
-        <ProductsCard :cards="slicedCards" />
-        <ProductsMoreButton v-if="grid.cards.length !== 0" @increment-cards="grid.showCards += 6" />
+        <ProductsCard :cards="slicedCards" ref="cardComponent" />
+        <ProductsMoreButton v-if="grid.cards.length !== 0" @increment-cards="getMoreProducts" />
       </div>
     </div>
     <Notification v-else class="my-5 py-5">
@@ -17,7 +17,10 @@
 </template>
 
 <script setup>
+import ProductCard from '~/components/Products/Card.vue';
 const store = useMainStore()
+
+const cardComponent = ref(null);
 
 const grid = reactive({
   cards: [],
@@ -35,6 +38,13 @@ const sortItems = (value) => {
     if (value === 'trending') return (a.type.length - b.type.length);
   })
   return grid.sortButton = value.toUpperCase()
+}
+
+function getMoreProducts() {
+  console.log(cardComponent);
+  if (cardComponent.value) {
+    cardComponent.value.getMoreProducts();
+  }
 }
 
 </script>
