@@ -6,10 +6,10 @@
     <div v-if="grid.cards.length !== 0" class="main-grid d-flex p-3">
       <ProductsFilterBar />
       <div class="col-11 col-md-12 col-lg-8 mx-auto" style="margin-left:25px !important">
-        <ProductsCard :cards="slicedCards" ref="cardComponent" />
-        <ProductsMoreButton v-if="grid.cards.length !== 0" @increment-cards="getMoreProducts" />
+        <ProductsCard :cards="slicedCards" ref="cardComponent" @check-more="checkMoreProducts" />
+        <ProductsMoreButton @increment-cards="getMoreProducts" ref="btnMoreC"  />
       </div>
-    </div>
+    </div> 
     <Notification v-else class="my-5 py-5">
       <h4>Sorry, we can't find any product with this features</h4>
     </Notification>
@@ -21,6 +21,7 @@ import ProductCard from '~/components/Products/Card.vue';
 const store = useMainStore()
 
 const cardComponent = ref(null);
+const btnMoreC = ref(null);
 
 const grid = reactive({
   cards: [],
@@ -41,9 +42,16 @@ const sortItems = (value) => {
 }
 
 function getMoreProducts() {
-  console.log(cardComponent);
+  //console.log(cardComponent);
   if (cardComponent.value) {
     cardComponent.value.getMoreProducts();
+  }
+}
+
+function checkMoreProducts() {
+  console.log('here in the button emit')
+  if (btnMoreC.value) {
+    btnMoreC.value.checkNextPage();
   }
 }
 

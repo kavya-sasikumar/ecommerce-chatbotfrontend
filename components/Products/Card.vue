@@ -9,7 +9,7 @@
           <NuxtLink :to="`/details/${item.id}`">
             <button type="button" @click="store.addtoInfo(item.id)" class="btn btn-light btn-lg">Info</button>
           </NuxtLink>
-        </div>
+        </div> 
         <div class="card-body">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text">
@@ -23,6 +23,9 @@
 
 <script setup>
 // import { Product } from '../types';
+import { defineEmits } from 'vue';
+
+const emit = defineEmits(['check-more']);
 
 const cards = reactive([]);
 let nextPage = reactive('');
@@ -34,15 +37,15 @@ const getProducts = async () => {
     const { data, error } = await useFetch('http://localhost:8000/api/v1/products/')
     console.log(data.value)
     cards.value = data.value.results;
-    console.log(cards)
+    //console.log(cards)
     if(data.value.links.next != null){
       nextPage = data.value.links.next;
-      localStorage.setItem('nextPage', nextPage);
+      localStorage.setItem('nextPage', nextPage.toString());
     }else{
       nextPage = null;
-      localStorage.setItem('nextPage', nextPage.toString());
+      localStorage.setItem('nextPage', nextPage);
     }
-    console.log(nextPage)
+    emit('check-more');
   } catch (error) {
     console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
     alert('Error Getting Products');
@@ -51,6 +54,25 @@ const getProducts = async () => {
 
 const getMoreProducts = async () => {
   console.log('Gotten');
+  if(nextPage != null){
+      //this.isLoadingCards = true;
+      try{
+        const { data, error } = await useFetch(nextPage)
+        cards.value.push(...data.value.results);
+        if(data.value.links.next != null){
+          nextPage = data.value.links.next;
+          localStorage.setItem('nextPage', nextPage.toString());
+        }else{
+          nextPage = null;
+          localStorage.setItem('nextPage', nextPage);
+        }
+        emit('check-more');
+      }catch (error){
+        console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
+        alert('Error Getting More Products');
+      }
+  }
+  
 }
 
 onBeforeMount(async () => {
@@ -76,7 +98,7 @@ defineExpose({
   transition: 300ms;
   position: relative;
   overflow: hidden;
-  font-family: avenir;
+  font-family: avenir-heavy;
   color: #7D2248;
 
 .price-text {

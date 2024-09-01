@@ -1,11 +1,23 @@
 <template>
     <div class="d-flex justify-content-center mx-5 mx-sm-0 pt-1">
-        <button type="button" @click="$emit('increment-cards')" class="flex-fill btn btn-outline-secondary">More
+        <button v-if="isVisible" type="button" @click="$emit('increment-cards')" class="flex-fill btn btn-outline-secondary">More
             +</button>
     </div>
 </template>
 <script setup>
+let isVisible = ref(false);
 
+const checkNextPage = async () => {
+  if(localStorage.getItem('nextPage') == 'null'){
+    isVisible.value = false;
+  }else{
+    isVisible.value = true;
+  } 
+}
+
+defineExpose({
+  checkNextPage,
+});
 </script>
 
 <style scoped>
