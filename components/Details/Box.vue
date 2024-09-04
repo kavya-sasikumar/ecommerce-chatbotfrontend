@@ -2,7 +2,7 @@
   <div>
     <div class="row mb-5">
       <div class="col6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
-        <img class="img-fluid" :src="useAsset(item.img!)">
+        <img class="img-fluid" :src="image">
       </div>
 
       <div class="col6 col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-start">
@@ -26,15 +26,20 @@
     </div>
   </div>
 </template>
-
+ 
 <script setup lang="ts">
 import { Product } from '@/components/types'
 
 const store = useMainStore()
 
 defineProps<{
-  item: Product
+  item: {image?: string, title?: string, price?: string}
 }>()
+
+// console.log(item)
+
+let stored_product = ref<Record<string, any>>({})
+let image = ref('')
 
 const quantity = ref(1)
 
@@ -46,6 +51,16 @@ function addtoCart(item: object) {
     store.inCart(item)
   }
 }
+onMounted(async() => {
+  // await nextTick();
+  if (localStorage.getItem('product') !== null) {
+    const storedProductString = localStorage.getItem('product') as string;
+    stored_product.value = JSON.parse(storedProductString);
+    image.value = stored_product.value.image || ''
+  }
+  console.log(stored_product.value)
+  
+})
 </script>
 
 <style scoped lang="scss">

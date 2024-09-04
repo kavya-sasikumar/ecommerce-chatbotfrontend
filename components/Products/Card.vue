@@ -6,9 +6,9 @@
         <img class="card-img-top" :src="item.image" alt="Card-image-cap" title="Card-image-cap"
           loading="lazy">
         <div class="overlay">
-          <button type="button" class="btn btn-light btn-lg" @click="store.inCart(item)">Add +</button>
-          <NuxtLink :to="`/details/${item.id}`">
-            <button type="button" @click="store.addtoInfo(item.id)" class="btn btn-light btn-lg">Info</button>
+          <button type="button" class="btn btn-light btn-lg" @click="addToCart(item)">Add +</button>
+          <NuxtLink :to="`/details/${item.title}`">
+            <button type="button" @click="goToDetails(item)" class="btn btn-light btn-lg">Info</button>
           </NuxtLink>
         </div> 
         <div class="card-body">
@@ -107,6 +107,34 @@ const loadCategoryProducts = async (category) => {
   }
 }
 
+const addToCart = async (product) => {
+  let cart = localStorage.getItem('cart');
+  if(cart != null && cart != 'null'){
+    cart = JSON.parse(cart);
+    const existingProduct = cart.find(item => item.id === product.id);
+
+    if (existingProduct) {
+      existingProduct.qty += 1;
+    } else {
+      product.qty = 1;
+      cart.push(product);
+    }
+    cart = JSON.stringify(cart);
+    localStorage.setItem('cart', cart);
+  }else{
+    cart = [];
+    product.qty = 1;
+    cart.push(product);
+    cart = JSON.stringify(cart);
+    localStorage.setItem('cart', cart);
+  }
+}
+
+const goToDetails = async (product) => {
+  product = JSON.stringify(product);
+  localStorage.setItem('product', product);
+}
+
 onBeforeMount(async () => {
   await nextTick();
   getProducts();
@@ -136,7 +164,8 @@ defineExpose({
   color: #7D2248;
 
 .price-text {
-  color:#232b34
+  color:#232b34;
+  font-family: avenir-light !important;
 }
 
   img {

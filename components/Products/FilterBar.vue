@@ -3,7 +3,7 @@
         <div class="card-selector">
             <div class="card-body p-5">
                 <div class="search-title">
-                    <h4>Categories +</h4>
+                    <h4 style="font-family: avenir-heavy !important;">Categories +</h4>
                     <h6 @click="emitCategoryData('all')">All</h6>
                     <h6 v-for="item in categories" :key="item.id" @click="emitCategoryData(item)">
                         {{ item.title }}
@@ -80,7 +80,7 @@ onMounted(async () => {
     height: 100vh;
     background: #7D2248 !important;
     box-shadow: 0 8px 6px 0 rgba(0, 0, 0, 0.1), 0 26px 70px 0 rgba(0, 0, 0, 0.69);
-    font-family: avenir-heavy;
+    font-family: avenir-light;
 }
 
 .search-title {

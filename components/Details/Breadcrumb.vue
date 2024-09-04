@@ -8,9 +8,9 @@
         <li class="breadcrumb-item">
           <NuxtLink to="/products">Products</NuxtLink>
         </li>
-        <li class="breadcrumb-item">
+        <!-- <li class="breadcrumb-item">
           <NuxtLink to="/products">{{ details.type }}</NuxtLink>
-        </li>
+        </li> -->
         <li class="breadcrumb-item active">{{ details.title }}</li>
       </ol>
     </nav>
@@ -44,7 +44,7 @@ defineProps<{
 
   .active {
     text-decoration: none !important;
-    color: #f2be00 !important;
+    color: #7D2248 !important;
   }
 }
 </style>

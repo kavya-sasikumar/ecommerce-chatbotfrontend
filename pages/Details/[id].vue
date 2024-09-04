@@ -1,8 +1,8 @@
 <template >
   <div class="container py-5" style="padding-top:70px;">
     <!-- TODO dont allow accessing of the route to this page '/info' except if there is info to display -->
-    <DetailsBreadcrumb :details="(item.details)" />
-    <DetailsBox :item="item.details" />
+    <DetailsBreadcrumb :details="(stored_product)" />
+    <DetailsBox :item="stored_product" />
     <DetailsText />
 
     <div class="related-item">
@@ -31,9 +31,15 @@ const item: Item = reactive({
   relatedItems: []
 })
 
+let stored_product= reactive({})
+
 onMounted(() => {
   let itemId = Number(route.params.id)
   item.details = store.items[itemId]
+  if (localStorage.getItem('product') !== null) {
+    const storedProductString = localStorage.getItem('product') as string;
+    stored_product = JSON.parse(storedProductString);
+  }
 })
 
 const sliceItems = computed(() => {
