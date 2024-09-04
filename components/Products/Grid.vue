@@ -4,7 +4,7 @@
       <ProductsDropDownFilters @sort-item="sortItems" />
     </div>
     <div v-if="grid.cards.length !== 0" class="main-grid d-flex p-3">
-      <ProductsFilterBar />
+      <ProductsFilterBar @category-products="loadCategoryProducts" />
       <div class="col-11 col-md-12 col-lg-8 mx-auto" style="margin-left:25px !important">
         <ProductsCard :cards="slicedCards" ref="cardComponent" @check-more="checkMoreProducts" />
         <ProductsMoreButton @increment-cards="getMoreProducts" ref="btnMoreC"  />
@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import ProductCard from '~/components/Products/Card.vue';
 const store = useMainStore()
 
 const cardComponent = ref(null);
@@ -49,9 +48,20 @@ function getMoreProducts() {
 }
 
 function checkMoreProducts() {
-  console.log('here in the button emit')
   if (btnMoreC.value) {
     btnMoreC.value.checkNextPage();
+  }
+}
+
+function loadCategoryProducts(data) {
+  // console.log(cardComponent.value);
+  if (cardComponent.value) {
+    console.log(data)
+    if(data == "all"){
+      cardComponent.value.getProducts();
+    }else{
+      cardComponent.value.loadCategoryProducts(data);
+    }
   }
 }
 

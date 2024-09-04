@@ -1,13 +1,19 @@
 <template>
     <div class="d-flex justify-content-center mx-5 mx-sm-0 pt-1">
-        <button v-if="isVisible" type="button" @click="$emit('increment-cards')" class="flex-fill btn btn-outline-secondary">More
-            +</button>
+        <button v-if="isVisible" :disabled="isLoadingMore" type="button" @click="$emit('increment-cards')" class="flex-fill btn btn-outline-secondary">
+        <span v-if="!isLoadingMore">More +</span> <span v-if="isLoadingMore">Loading........</span></button>
     </div>
 </template>
 <script setup>
 let isVisible = ref(false);
+let isLoadingMore = ref(false);
 
 const checkNextPage = async () => {
+  if(localStorage.getItem('isLoadingMore') == 'true'){
+    isLoadingMore.value = true;
+  }else{
+    isLoadingMore.value = false;
+  } 
   if(localStorage.getItem('nextPage') == 'null'){
     isVisible.value = false;
   }else{
@@ -18,7 +24,7 @@ const checkNextPage = async () => {
 defineExpose({
   checkNextPage,
 });
-</script>
+</script> 
 
 <style scoped>
 .btn-outline-secondary {

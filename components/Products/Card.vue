@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-content-center text-center">
-    <div v-for="item in cards.value" class="col-10 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-4 pb-3" :key="item.id">
+    <Spinner :isLoading="isLoading" />
+    <div v-if="!isLoading" v-for="item in cards.value" class="col-10 col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-4 pb-3" :key="item.id">
       <div class="card">
         <img class="card-img-top" :src="item.image" alt="Card-image-cap" title="Card-image-cap"
           loading="lazy">
@@ -24,18 +25,20 @@
 <script setup>
 // import { Product } from '../types';
 import { defineEmits } from 'vue';
+import Spinner from '~/components/loaders/Spinner.vue';
 
 const emit = defineEmits(['check-more']);
 
 const cards = reactive([]);
 let nextPage = reactive('');
+let isLoading = ref(false);
 
 const store = useMainStore()
 
 const getProducts = async () => {
   try {
+    isLoading.value = true;
     const { data, error } = await useFetch('http://localhost:8000/api/v1/products/')
-    console.log(data.value)
     cards.value = data.value.results;
     //console.log(cards)
     if(data.value.links.next != null){
@@ -46,15 +49,20 @@ const getProducts = async () => {
       localStorage.setItem('nextPage', nextPage);
     }
     emit('check-more');
+    isLoading.value = false;
+    console.log(isLoading.value)
+    
   } catch (error) {
+    isLoading.value = false;
     console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
     alert('Error Getting Products');
   }
 }
 
 const getMoreProducts = async () => {
-  console.log('Gotten');
   if(nextPage != null){
+      localStorage.setItem('isLoadingMore', true);
+      emit('check-more');
       //this.isLoadingCards = true;
       try{
         const { data, error } = await useFetch(nextPage)
@@ -66,13 +74,37 @@ const getMoreProducts = async () => {
           nextPage = null;
           localStorage.setItem('nextPage', nextPage);
         }
+        localStorage.setItem('isLoadingMore', false);
         emit('check-more');
       }catch (error){
         console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
         alert('Error Getting More Products');
+        
       }
   }
   
+}
+
+const loadCategoryProducts = async (category) => {
+  try {
+    isLoading.value = true;
+    const { data, error } = await useFetch('http://localhost:8000/api/v1/category-products/' + category.id + '/')
+    cards.value = data.value.results;
+    console.log(data.value.results)
+    if(data.value.links.next != null){
+      nextPage = data.value.links.next;
+      localStorage.setItem('nextPage', nextPage.toString());
+    }else{
+      nextPage = null;
+      localStorage.setItem('nextPage', nextPage);
+    }
+    emit('check-more');
+    isLoading.value = false;
+  } catch (error) {
+    isLoading.value = false;
+    console.error('Product Fetch Failed:', error.response ? error.response.data : error.message)
+    alert('Error Getting Products');
+  }
 }
 
 onBeforeMount(async () => {
@@ -86,7 +118,9 @@ onBeforeMount(async () => {
 //}>()
 
 defineExpose({
+  getProducts,
   getMoreProducts,
+  loadCategoryProducts,
 });
 
 </script>
