@@ -7,17 +7,18 @@
 
       <div class="col6 col-xl-6 col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-start">
         <div class="info pt-xl-0 pt-lg-0 pt-5">
-          <span class="float-left pr-3">★★★★★</span>
-          <h6 style="width:190px;">3 reviews</h6>
-          <h1 class="font-weight-bold text-uppercase pt-3">{{ item.title }}</h1>
-          <h4>${{ item.price }}</h4>
+          <!-- <span class="float-left pr-3">★★★★★</span> -->
+          <span class="float-left pr-3" style="color:#7D2248 !important; font-size: 40px !important">{{ rendered_stars }}</span>
+          <h6 style="width:190px; font-size: 20px !important; font-family: avenir-light !important">{{ stored_product.total_reviews }} reviews</h6>
+          <h1 class="font-weight-bold text-uppercase pt-3" style="font-family: avenir-medium !important">{{ stored_product.title }}</h1>
+          <h4 style= "font-size: 22px !important;  font-family: avenir-light !important">${{ stored_product.price }}</h4>
           <br><br><br>
           <div class="control number text-center">
             <button class="decrement-button" @click="decrememnt"
-              style="border-right: 0.2px solid lightgrey;float:left;margin-right: 11px;">−</button>
+              style="border-right: 0.2px solid #7D2248;float:left;margin-right: 11px; color:#7D2248 !important;" >−</button>
             <span>{{ quantity }}</span>
             <button class="increment-button" @click="incrememnt"
-              style="border-left: 0.2px solid lightgrey;margin-left: 16px;">+</button>
+              style="border-left: 0.2px solid #7D2248;margin-left: 16px; color:#7D2248 !important;">+</button>
             <br><br>
           </div>
           <button class="add-to-cart-button" @click="addtoCart(item)">ADD TO CART</button>
@@ -36,10 +37,11 @@ defineProps<{
   item: {image?: string, title?: string, price?: string}
 }>()
 
-// console.log(item)
+//console.log(item)
 
 let stored_product = ref<Record<string, any>>({})
 let image = ref('')
+let rendered_stars = ref('')
 
 const quantity = ref(1)
 
@@ -57,10 +59,19 @@ onMounted(async() => {
     const storedProductString = localStorage.getItem('product') as string;
     stored_product.value = JSON.parse(storedProductString);
     image.value = stored_product.value.image || ''
+    rendered_stars.value = generateStars(stored_product.value.average_rating)
+    console.log(rendered_stars.value)
   }
   console.log(stored_product.value)
   
 })
+function generateStars(rating: any) {
+  const totalStars=5
+  const fullStars="★".repeat(rating)
+  console.log(rating)
+  const emptyStars="☆".repeat(totalStars - rating)
+  return fullStars + emptyStars;
+}
 </script>
 
 <style scoped lang="scss">
@@ -69,7 +80,17 @@ onMounted(async() => {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+@font-face {
+  font-family: avenir-medium;
+  src: url(/assets/avenir/AvenirLTProMedium.otf);
+}
+
 .control {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 30px;
+  
   .number {
     border: 0.2px solid lightgrey;
     font-size: 19px;
@@ -84,6 +105,7 @@ onMounted(async() => {
       width: 56px;
       height: 35px;
       outline-style: none;
+      color:#7D2248 !important;
 
       &:active {
         background-color: lightgrey;
@@ -102,7 +124,7 @@ onMounted(async() => {
   transition-duration: 500ms;
   width: 155px;
   height: 70px;
-  background-color: #2c3539;
+  background-color: #7D2248;
   color: #fff;
   font-size: 15px;
   padding: 0px 30px;

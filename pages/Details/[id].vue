@@ -1,7 +1,7 @@
 <template >
   <div class="container py-5" style="padding-top:70px;">
     <!-- TODO dont allow accessing of the route to this page '/info' except if there is info to display -->
-    <DetailsBreadcrumb :details="(stored_product)" />
+    <DetailsBreadcrumb :details="stored_product" />
     <DetailsBox :item="stored_product" />
     <DetailsText />
 
