@@ -21,7 +21,7 @@
               style="border-left: 0.2px solid #7D2248;margin-left: 16px; color:#7D2248 !important;">+</button>
             <br><br>
           </div>
-          <button class="add-to-cart-button" @click="addtoCart(item)">ADD TO CART</button>
+          <button class="add-to-cart-button" :disabled="in_stock" @click="addtoCart(item)"><span v-if="in_stock">ADD TO CART</span> <span v-if="!in_stock">OUT OF STOCK</span></button>
         </div>
       </div>
     </div>
@@ -42,10 +42,11 @@ defineProps<{
 let stored_product = ref<Record<string, any>>({})
 let image = ref('')
 let rendered_stars = ref('')
+let in_stock = ref(true)
 
 const quantity = ref(1)
 
-const incrememnt = () => quantity.value < 9 ? quantity.value++ : 0
+const incrememnt = () => quantity.value++
 const decrememnt = () => quantity.value > 1 ? quantity.value-- : 0
 
 function addtoCart(item: object) {
@@ -60,6 +61,9 @@ onMounted(async() => {
     stored_product.value = JSON.parse(storedProductString);
     image.value = stored_product.value.image || ''
     rendered_stars.value = generateStars(stored_product.value.average_rating)
+    if (stored_product.value.stock <= 0){
+      in_stock.value=false
+    }
     console.log(rendered_stars.value)
   }
   console.log(stored_product.value)
