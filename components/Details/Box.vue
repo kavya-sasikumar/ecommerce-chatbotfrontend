@@ -64,15 +64,12 @@ onMounted(async() => {
     if (stored_product.value.stock <= 0){
       in_stock.value=false
     }
-    console.log(rendered_stars.value)
   }
-  console.log(stored_product.value)
   
 })
 function generateStars(rating: any) {
   const totalStars=5
   const fullStars="★".repeat(rating)
-  console.log(rating)
   const emptyStars="☆".repeat(totalStars - rating)
   return fullStars + emptyStars;
 }
