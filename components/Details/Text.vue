@@ -38,11 +38,12 @@
               </div>
             </div>
           </div>
-          <div class="rating-container d-flex">
+          <div class="rating-container d-flex" v-for="review in reviews" :key="review.id">
             <div class="col-4 d-flex align-items-center justify-content-start">
               <div>
-              <h1 style="font-family: avenir-heavy; font-size:80px;">{{ formatRating(stored_product.average_rating) }} <span style="font-size: 20px">out of 5 stars</span></h1>
-              <span class="float-left pr-3" style="color:#7D2248 !important; font-size: 40px !important">{{ rendered_stars }}</span>
+              <span class="float-left pr-3" style="color:#7D2248 !important; font-size: 40px !important">{{ generateStars(review.rating) }}</span>
+              <p>{{ formatDate(review.date_updated) }}</p>
+              <p>@{{ review.username }}</p>
               </div>
             </div>
                         
@@ -102,8 +103,9 @@ let productRating = ref<number>(0);
 let reviews = ref<any[]>([]);
 let rendered_stars = ref('')
 const showModal = ref(false);
-
-onMounted(async() => {
+ 
+onBeforeMount(async() => {
+  await nextTick()
   if (localStorage.getItem('product') !== null) {
     const storedProductString = localStorage.getItem('product') as string;
     stored_product.value = JSON.parse(storedProductString);
@@ -170,6 +172,12 @@ const openReviewModal = () => {
 
 const closeReviewModal = () => {
   showModal.value = false;
+};
+
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
 };
 </script>
 
