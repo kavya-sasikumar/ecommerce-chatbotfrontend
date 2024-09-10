@@ -29,7 +29,7 @@
             </div>
                         
             <!-- Second Partition: Text prompt and Get Started button -->
-            <div class="col-4 d-flex align-items-center justify-content-right">
+            <div class="col-4 d-flex align-items-start justify-content-start">
               <div>
                 <p style="font-family: avenir-medium; font-size:24px;">
                   Write a review and share your experience!
@@ -38,58 +38,343 @@
               </div>
             </div>
           </div>
+          <h5 style="margin-top:20px; font-family: avenir-heavy; border-bottom: 0.3px solid lightgrey; padding-bottom: 0.75rem;">Reviews</h5>
           <div class="rating-container d-flex" v-for="review in reviews" :key="review.id">
             <div class="col-4 d-flex align-items-center justify-content-start">
+              
               <div>
-              <span class="float-left pr-3" style="color:#7D2248 !important; font-size: 40px !important">{{ generateStars(review.rating) }}</span>
-              <p>{{ formatDate(review.date_updated) }}</p>
+              <span class="float-left pr-3" style="color:#7D2248 !important; font-size: 20px !important">{{ generateStars(review.rating) }}</span>
+              <p style= "font-size:15px">{{ formatDate(review.date_updated) }}</p>
               <p>@{{ review.username }}</p>
               </div>
             </div>
                         
             <!-- Second Partition: Text prompt and Get Started button -->
-            <div class="col-4 d-flex align-items-center justify-content-right">
+            <div class="col-4 d-flex align-items-start justify-content-start">
               <div>
-                <p style="font-family: avenir-medium; font-size:24px;">
-                  Write a review and share your experience!
+                <p style="font-family: avenir-light; font-size:20px;">
+                  {{ review.comment }}
                 </p>
-                <button class="btn-primary" @click="openReviewModal">Get Started</button>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Triggered by 'Get Started' Button -->
+          <div
+            v-if="showReviewModal"
+            class="tt-o-modal__container"
+            tabindex="-1"
+          >
+            <div class="tt-o-modal__close">
+              <button
+                class="tt-o-button tt-o-button--icon tt-o-modal__close-btn tt-o-modal__close-btn"
+                aria-label="Close Submission Modal"
+                title="Close Submission Modal"
+                type="button"
+                @click="closeReviewModal"
+              >
+                <svg
+                  class="tt-o-icon tt-o-icon--close tt-o-icon--xs"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <use xlink:href="#tt-icon-close"></use>
+                </svg>
+              </button>
+            </div>
+            <div class="tt-o-modal__body">
+              <div class="tt-submission-mediator">
+                <div class="tt-c-review-form">
+                  <form class="tt-c-review-form__form tt-u-spacing--xl">
+                    <div class="tt-c-review-form-header-container">
+                      <div
+                        class="tt-c-review-form-header tt-c-review-form-header--with-image"
+                      >
+                        <div class="tt-c-review-form-header__content--left">
+                          <div
+                            class="tt-c-review-form-header__heading"
+                            role="heading"
+                            aria-level="2"
+                          >
+                            Please share your experience
+                          </div>
+                          <div class="tt-c-review-form-header__product-title">
+                            {{ stored_product.name }}
+                          </div>
+                          <p class="tt-c-review-form-header__text">
+                            Your feedback will help other shoppers make good
+                            choices, and we'll use it to improve our products.
+                          </p>
+                        </div>
+                        <div class="tt-c-review-form-header__content--right">
+                          <img
+                            :src="stored_product.image_url"
+                            alt=""
+                            class="tt-o-product__image tt-c-review-form-header__product-image"
+                            loading="lazy"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-          <div v-if="reviews.length > 0">
-            <h6>Previous Reviews:</h6>
-            <ul class="list-group">
-              <li class="list-group-item" v-for="(review, index) in reviews" :key="index">
-                <strong>{{ review.username }}:</strong> {{ review.content }}
-                <span class="badge badge-primary float-right">{{ review.rating }} / 5</span>
-              </li>
-            </ul>
+                    <fieldset class="tt-u-spacing--lg">
+                      <!-- Overall Rating -->
+                      <fieldset
+                        class="tt-o-field-group tt-u-spacing--xs tt-c-review-form__overall-rating"
+                        aria-required="true"
+                        aria-labelledby="tt-review-form-rating"
+                        role="radiogroup"
+                      >
+                        <legend class="tt-o-field-group__label">
+                          <span class="tt-o-field-group__label-text">
+                            Overall rating
+                          </span>
+                          <span class="tt-o-field-group__required"> *</span>
+                        </legend>
+                        <div class="tt-c-rating tt-c-rating--actionable">
+                          <span
+                            v-for="star in 5"
+                            :key="star"
+                            role="radio"
+                            class="tt-c-rating__star tt-o-button--icon"
+                            :aria-checked="reviewForm.rating === star"
+                            @click="reviewForm.rating = star"
+                          >
+                            <svg
+                              v-if="reviewForm.rating >= star"
+                              class="tt-o-icon tt-o-icon--star--filled tt-o-icon--xxl tt-c-rating__icon tt-c-rating__icon"
+                              aria-hidden="true"
+                              focusable="false"
+                            >
+                              <use xlink:href="#tt-icon-star--filled"></use>
+                            </svg>
+                            <svg
+                              v-else
+                              class="tt-o-icon tt-o-icon--star--empty tt-o-icon--xxl tt-c-rating__icon tt-c-rating__icon"
+                              aria-hidden="true"
+                              focusable="false"
+                            >
+                              <use xlink:href="#tt-icon-star--empty"></use>
+                            </svg>
+                            <span class="tt-u-clip-hide">
+                              Select to rate {{ star }} stars
+                            </span>
+                          </span>
+                        </div>
+                      </fieldset>
+
+                      <!-- Review Text -->
+                      <div class="tt-o-field-group tt-u-spacing--xs tt-c-review-form__body-text">
+                        <label class="tt-o-field-group__label" for="reviewText">
+                          <span class="tt-o-field-group__label-text">Review</span>
+                        </label>
+                        <textarea
+                          v-model="reviewForm.text"
+                          class="tt-o-textarea"
+                          id="reviewText"
+                          name="reviewText"
+                          rows="5"
+                          aria-invalid="false"
+                        ></textarea>
+                        <div
+                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
+                        >
+                          <svg
+                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <use xlink:href="#tt-icon-info"></use>
+                          </svg>
+                          <span class="tt-o-hint__text">
+                            Make your review great: Describe what you liked,
+                            what you didn’t like, and other key things shoppers
+                            should know (minimum 10 characters)
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Review Title -->
+                      <div class="tt-o-field-group tt-u-spacing--xs tt-c-review-form__title">
+                        <label
+                          class="tt-o-field-group__label"
+                          for="reviewTitle"
+                        >
+                          <span class="tt-o-field-group__label-text">
+                            Review title
+                          </span>
+                        </label>
+                        <input
+                          v-model="reviewForm.title"
+                          class="tt-o-text-field"
+                          type="text"
+                          id="reviewTitle"
+                          name="reviewTitle"
+                          aria-invalid="false"
+                        />
+                        <div
+                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
+                        >
+                          <svg
+                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <use xlink:href="#tt-icon-info"></use>
+                          </svg>
+                          <span class="tt-o-hint__text">
+                            Your overall impression (150 characters or less)
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Fit Radio Buttons -->
+                      <fieldset
+                        class="tt-o-field-group tt-u-spacing--xs tt-c-range-field"
+                        aria-required="true"
+                        aria-labelledby="fitLabel"
+                        role="radiogroup"
+                      >
+                        <legend class="tt-o-field-group__label">
+                          <span
+                            class="tt-o-field-group__label-text"
+                            id="fitLabel"
+                          >
+                            Fit
+                          </span>
+                          <span class="tt-o-field-group__required"> *</span>
+                        </legend>
+                        <div class="tt-c-range-field__group tt-u-spacing">
+                          <div
+                            v-for="(fit, index) in fitOptions"
+                            :key="index"
+                            class="tt-c-range-field__item tt-u-spacing--xs tt-c-range-field__item"
+                          >
+                            <input
+                              type="radio"
+                              :id="'fit-' + fit.value"
+                              class="tt-c-range-field__input"
+                              :name="'fit-' + fit.value"
+                              v-model="reviewForm.fit"
+                              :value="fit.value"
+                            />
+                            <label
+                              :for="'fit-' + fit.value"
+                              class="tt-c-range-field__label"
+                            >
+                              {{ fit.label }}
+                            </label>
+                          </div>
+                        </div>
+                      </fieldset>
+
+                      <!-- Would Recommend Toggle -->
+                      <div
+                        class="tt-o-field-group tt-u-spacing--xs tt-c-toggle"
+                      >
+                        <label
+                          class="tt-o-field-group__label"
+                          for="wouldRecommend"
+                        >
+                          <span class="tt-o-field-group__label-text">
+                            Would you recommend this product?
+                          </span>
+                        </label>
+                        <label class="tt-o-toggle">
+                          <input
+                            v-model="reviewForm.wouldRecommend"
+                            class="tt-o-toggle__input"
+                            type="checkbox"
+                            id="wouldRecommend"
+                          />
+                          <span class="tt-o-toggle__slider"></span>
+                        </label>
+                      </div>
+
+                      <!-- Nickname -->
+                      <div class="tt-o-field-group tt-u-spacing--xs">
+                        <label class="tt-o-field-group__label" for="nickname">
+                          <span class="tt-o-field-group__label-text">
+                            Nickname
+                          </span>
+                          <span class="tt-o-field-group__required"> *</span>
+                        </label>
+                        <input
+                          v-model="reviewForm.nickname"
+                          class="tt-o-text-field"
+                          type="text"
+                          id="nickname"
+                          name="nickname"
+                          aria-invalid="false"
+                        />
+                      </div>
+
+                      <!-- Email -->
+                      <div class="tt-o-field-group tt-u-spacing--xs">
+                        <label class="tt-o-field-group__label" for="email">
+                          <span class="tt-o-field-group__label-text">Email</span>
+                          <span class="tt-o-field-group__required"> *</span>
+                        </label>
+                        <input
+                          v-model="reviewForm.email"
+                          class="tt-o-text-field"
+                          type="email"
+                          id="email"
+                          name="email"
+                          aria-invalid="false"
+                        />
+                        <div
+                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
+                        >
+                          <svg
+                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <use xlink:href="#tt-icon-info"></use>
+                          </svg>
+                          <span class="tt-o-hint__text">
+                            We’ll only use this to contact you about your review
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Terms and Conditions Checkbox -->
+                      <div class="tt-o-field-group tt-u-spacing--xs">
+                        <label class="tt-c-check-box__label">
+                          <input
+                            v-model="reviewForm.termsAccepted"
+                            class="tt-c-check-box__input"
+                            type="checkbox"
+                            id="termsAccepted"
+                            name="termsAccepted"
+                            aria-invalid="false"
+                          />
+                          <span class="tt-c-check-box__input__check"></span>
+                          I accept the
+                          <a href="#" class="tt-o-link">terms and conditions</a>
+                          <span class="tt-o-field-group__required"> *</span>
+                        </label>
+                      </div>
+
+                      <!-- Submit Button -->
+                      <div class="tt-o-field-group tt-u-spacing--xs">
+                        <button
+                          @click="submitReview"
+                          class="tt-o-button tt-o-button--primary"
+                          type="button"
+                        >
+                          Submit Review
+                        </button>
+                      </div>
+                    </fieldset>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-          <div v-else>
-            <p style="font-family: avenir-light;">No reviews yet. Be the first to review this product!</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal for writing a review -->
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal">
-        <div class="modal-header">
-          <h5 class="modal-title">Write a Review</h5>
-          <button class="close-button" @click="closeReviewModal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <!-- Form for the review goes here -->
-          <textarea class="form-control" rows="5" placeholder="Share your thoughts..."></textarea>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-secondary" @click="closeReviewModal">Close</button>
-          <button class="btn-primary">Submit Review</button>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -103,6 +388,21 @@ let productRating = ref<number>(0);
 let reviews = ref<any[]>([]);
 let rendered_stars = ref('')
 const showModal = ref(false);
+
+// Modal control
+const showReviewModal = ref(false)
+
+// Review form data
+const reviewForm = ref({
+  rating: 0,
+  text: '',
+  title: '',
+  fit: null,
+  wouldRecommend: false,
+  nickname: '',
+  email: '',
+  termsAccepted: false
+})
  
 onBeforeMount(async() => {
   await nextTick()
@@ -166,19 +466,36 @@ function generateStars(rating: any) {
   return fullStars + emptyStars;
 };
 
-const openReviewModal = () => {
-  showModal.value = true;
-};
-
-const closeReviewModal = () => {
-  showModal.value = false;
-};
-
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   return date.toLocaleDateString('en-US', options);
 };
+
+// Fit options
+const fitOptions = ref([
+  { label: 'Too small', value: 'too-small' },
+  { label: 'True to size', value: 'true-to-size' },
+  { label: 'Too large', value: 'too-large' }
+])
+
+// Event handlers
+const openReviewModal = () => {
+  showReviewModal.value = true
+}
+
+const closeReviewModal = () => {
+  showReviewModal.value = false
+}
+
+const submitReview = () => {
+  if (reviewForm.value.rating && reviewForm.value.text.length >= 10 && reviewForm.value.nickname && reviewForm.value.email && reviewForm.value.termsAccepted) {
+    console.log('Review submitted:', reviewForm.value)
+    closeReviewModal()
+  } else {
+    alert('Please fill out all required fields.')
+  }
+}
 </script>
 
 
