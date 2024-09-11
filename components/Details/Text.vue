@@ -97,11 +97,12 @@
                             class="tt-c-review-form-header__heading"
                             role="heading"
                             aria-level="2"
+                            style="font-family: avenir-heavy; font-size: 1.5rem"
                           >
                             Please share your experience
                           </div>
-                          <div class="tt-c-review-form-header__product-title">
-                            {{ stored_product.name }}
+                          <div class="tt-c-review-form-header__product-title" style="">
+                            {{ stored_product.title }}
                           </div>
                           <p class="tt-c-review-form-header__text">
                             Your feedback will help other shoppers make good
@@ -633,6 +634,103 @@ const submitReview = () => {
 
 .btn-secondary:hover {
   background-color: #5a6268;
+}
+
+/* Modal Overlay */
+.tt-o-modal__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.tt-o-modal__body {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 95%; /* Limit height */
+  overflow-y: auto; /* Enable vertical scroll */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tt-o-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.tt-o-modal__close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tt-c-review-form__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tt-c-review-form__heading {
+  font-family: 'avenir-heavy', sans-serif;
+  font-size: 24px;
+}
+
+.tt-c-review-form__product-title {
+  font-family: 'avenir-medium', sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+
+.tt-o-textarea,
+.tt-o-text-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.tt-o-button--primary {
+  background-color: #7D2248;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tt-o-button--primary:hover {
+  background-color: #5c1836;
+}
+
+.tt-o-field-group__label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.tt-c-rating__star {
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 </style>
