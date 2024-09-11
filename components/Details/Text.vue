@@ -101,10 +101,10 @@
                           >
                             Please share your experience
                           </div>
-                          <div class="tt-c-review-form-header__product-title" style="">
+                          <div class="tt-c-review-form-header__product-title" style="font-family: avenir-heavy">
                             {{ stored_product.title }}
                           </div>
-                          <p class="tt-c-review-form-header__text">
+                          <p class="tt-c-review-form-header__text" style="">
                             Your feedback will help other shoppers make good
                             choices, and we'll use it to improve our products.
                           </p>
@@ -129,39 +129,21 @@
                         role="radiogroup"
                       >
                         <legend class="tt-o-field-group__label">
-                          <span class="tt-o-field-group__label-text">
-                            Overall rating
+                          <span class="tt-o-field-group__label-text" style="font-family:avenir-heavy">
+                            Overall Rating
                           </span>
-                          <span class="tt-o-field-group__required"> *</span>
+                          <span class="tt-o-field-group__required" style="color: #7D2248"> *</span>
                         </legend>
-                        <div class="tt-c-rating tt-c-rating--actionable">
+                        <div class="stars">
                           <span
-                            v-for="star in 5"
-                            :key="star"
-                            role="radio"
-                            class="tt-c-rating__star tt-o-button--icon"
-                            :aria-checked="reviewForm.rating === star"
-                            @click="reviewForm.rating = star"
+                            v-for="(star, index) in 5"
+                            :key="index"
+                            @mouseover="hoverStars(index + 1)"
+                            @mouseleave="hoverStars(0)"
+                            @click="selectRating(index + 1)"
+                            class="star"
                           >
-                            <svg
-                              v-if="reviewForm.rating >= star"
-                              class="tt-o-icon tt-o-icon--star--filled tt-o-icon--xxl tt-c-rating__icon tt-c-rating__icon"
-                              aria-hidden="true"
-                              focusable="false"
-                            >
-                              <use xlink:href="#tt-icon-star--filled"></use>
-                            </svg>
-                            <svg
-                              v-else
-                              class="tt-o-icon tt-o-icon--star--empty tt-o-icon--xxl tt-c-rating__icon tt-c-rating__icon"
-                              aria-hidden="true"
-                              focusable="false"
-                            >
-                              <use xlink:href="#tt-icon-star--empty"></use>
-                            </svg>
-                            <span class="tt-u-clip-hide">
-                              Select to rate {{ star }} stars
-                            </span>
+                            {{ index + 1 <= currentRating || index + 1 <= hoverRating ? '★' : '☆' }}
                           </span>
                         </div>
                       </fieldset>
@@ -497,6 +479,19 @@ const submitReview = () => {
     alert('Please fill out all required fields.')
   }
 }
+
+const currentRating = ref(0)   // Holds the selected rating
+const hoverRating = ref(0)     // Holds the hover state
+
+// Function to handle hover effect
+const hoverStars = (rating) => {
+  hoverRating.value = rating
+}
+
+// Function to handle star click (rating selection)
+const selectRating = (rating) => {
+  currentRating.value = rating
+}
 </script>
 
 
@@ -731,6 +726,23 @@ const submitReview = () => {
   to {
     opacity: 1;
   }
+}
+
+.stars {
+  font-size: 2rem;  /* Size of the stars */
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;  /* Spacing between stars */
+}
+
+.star {
+  transition: color 0.3s ease;
+  color: #ccc; /* Default color for empty stars */
+}
+
+.star:hover,
+.star.filled {
+  color: #7D2248; /* Gold color for filled stars */
 }
 
 </style>
