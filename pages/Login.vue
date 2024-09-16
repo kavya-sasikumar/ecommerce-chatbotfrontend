@@ -68,12 +68,28 @@ const login = async () => {
       throw new Error(error.value.message)
     }
     //$toast('This is a success message!', { type: 'success', duration: 3000 });
-  navigateTo('/products')
+  //navigateTo('/products')
+  checkUser();
   } catch (error) {
     console.error('Login failed:', error.response ? error.response.data : error.message)
     //$toast('This is an error message!', { type: 'error', duration: 3000 });
     alert('Error Logging In User');
     
+  }
+}
+
+const checkUser = async () => {
+  try {
+    const { data, error } = await useFetch('http://localhost:8000/api/v1/check-user/', {
+      method: 'GET',
+      headers: { authorization: "Token " + localStorage.getItem("token") }
+    })
+    //$toast('This is a success message!', { type: 'success', duration: 3000 });
+    console.log(data.value.results[0].user_id)
+    //localStorage.setItem("user_id", data.value)
+    //navigateTo('/products')
+  } catch (error) {
+    console.log(error)
   }
 }
 </script>

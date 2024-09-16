@@ -312,12 +312,28 @@ const closeReviewModal = () => {
   showReviewModal.value = false
 }
 
-const submitReview = () => {
-  if (reviewForm.value.rating && reviewForm.value.text.length >= 10 && reviewForm.value.nickname && reviewForm.value.email && reviewForm.value.termsAccepted) {
+const submitReview = async () => {
+  if (reviewForm.value.rating && reviewForm.value.text.length >= 10) {
     console.log('Review submitted:', reviewForm.value)
-    closeReviewModal()
+    try {
+      let review_data ={"user": localStorage.getItem("user_id"), "rating":reviewForm.value.rating, "comment":reviewForm.value.text, "product": stored_product.value.id}
+      const { data, error } = await useFetch('http://localhost:8000/api/v1/create-review/', {
+        method: 'POST',
+        body: review_data,
+        headers: { authorization: "Token " + localStorage.getItem("token") }
+      })
+      console.log(data.value)
+      closeReviewModal()
+    } catch (error) {
+      console.log(error);
+      console.error('Review Adding failed:')
+      //$toast('This is an error message!', { type: 'error', duration: 3000 });
+      alert('Error Adding Review');
+      
+    }
+    //closeReviewModal()
   } else {
-    alert('Please fill out all required fields.')
+    alert('Please fill out all required fields and ensure the review text is well phrased.')
   }
 }
 
@@ -332,6 +348,7 @@ const hoverStars = (rating: any) => {
 // Function to handle star click (rating selection)
 const selectRating = (rating: any) => {
   currentRating.value = rating
+  reviewForm.value.rating = rating
   console.log(currentRating.value)
 }
 </script>
