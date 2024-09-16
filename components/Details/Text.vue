@@ -97,26 +97,19 @@
                             class="tt-c-review-form-header__heading"
                             role="heading"
                             aria-level="2"
-                            style="font-family: avenir-heavy; font-size: 1.5rem"
+                            style="font-family: avenir-heavy; font-size: 1.5rem; margin-bottom:5px"
                           >
                             Please share your experience
                           </div>
-                          <div class="tt-c-review-form-header__product-title" style="font-family: avenir-heavy">
+                          <div class="tt-c-review-form-header__product-title" style="font-family: avenir-heavy; margin-bottom:5px">
                             {{ stored_product.title }}
                           </div>
-                          <p class="tt-c-review-form-header__text" style="">
+                          <p class="tt-c-review-form-header__text" style="margin-bottom: 5px;">
                             Your feedback will help other shoppers make good
                             choices, and we'll use it to improve our products.
                           </p>
                         </div>
-                        <div class="tt-c-review-form-header__content--right">
-                          <img
-                            :src="stored_product.image_url"
-                            alt=""
-                            class="tt-o-product__image tt-c-review-form-header__product-image"
-                            loading="lazy"
-                          />
-                        </div>
+                        
                       </div>
                     </div>
 
@@ -161,185 +154,7 @@
                           rows="5"
                           aria-invalid="false"
                         ></textarea>
-                        <div
-                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
-                        >
-                          <svg
-                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
-                            aria-hidden="true"
-                            focusable="false"
-                          >
-                            <use xlink:href="#tt-icon-info"></use>
-                          </svg>
-                          <span class="tt-o-hint__text">
-                            Make your review great: Describe what you liked,
-                            what you didn’t like, and other key things shoppers
-                            should know (minimum 10 characters)
-                          </span>
-                        </div>
-                      </div>
-
-                      <!-- Review Title -->
-                      <div class="tt-o-field-group tt-u-spacing--xs tt-c-review-form__title">
-                        <label
-                          class="tt-o-field-group__label"
-                          for="reviewTitle"
-                        >
-                          <span class="tt-o-field-group__label-text">
-                            Review title
-                          </span>
-                        </label>
-                        <input
-                          v-model="reviewForm.title"
-                          class="tt-o-text-field"
-                          type="text"
-                          id="reviewTitle"
-                          name="reviewTitle"
-                          aria-invalid="false"
-                        />
-                        <div
-                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
-                        >
-                          <svg
-                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
-                            aria-hidden="true"
-                            focusable="false"
-                          >
-                            <use xlink:href="#tt-icon-info"></use>
-                          </svg>
-                          <span class="tt-o-hint__text">
-                            Your overall impression (150 characters or less)
-                          </span>
-                        </div>
-                      </div>
-
-                      <!-- Fit Radio Buttons -->
-                      <fieldset
-                        class="tt-o-field-group tt-u-spacing--xs tt-c-range-field"
-                        aria-required="true"
-                        aria-labelledby="fitLabel"
-                        role="radiogroup"
-                      >
-                        <legend class="tt-o-field-group__label">
-                          <span
-                            class="tt-o-field-group__label-text"
-                            id="fitLabel"
-                          >
-                            Fit
-                          </span>
-                          <span class="tt-o-field-group__required"> *</span>
-                        </legend>
-                        <div class="tt-c-range-field__group tt-u-spacing">
-                          <div
-                            v-for="(fit, index) in fitOptions"
-                            :key="index"
-                            class="tt-c-range-field__item tt-u-spacing--xs tt-c-range-field__item"
-                          >
-                            <input
-                              type="radio"
-                              :id="'fit-' + fit.value"
-                              class="tt-c-range-field__input"
-                              :name="'fit-' + fit.value"
-                              v-model="reviewForm.fit"
-                              :value="fit.value"
-                            />
-                            <label
-                              :for="'fit-' + fit.value"
-                              class="tt-c-range-field__label"
-                            >
-                              {{ fit.label }}
-                            </label>
-                          </div>
-                        </div>
-                      </fieldset>
-
-                      <!-- Would Recommend Toggle -->
-                      <div
-                        class="tt-o-field-group tt-u-spacing--xs tt-c-toggle"
-                      >
-                        <label
-                          class="tt-o-field-group__label"
-                          for="wouldRecommend"
-                        >
-                          <span class="tt-o-field-group__label-text">
-                            Would you recommend this product?
-                          </span>
-                        </label>
-                        <label class="tt-o-toggle">
-                          <input
-                            v-model="reviewForm.wouldRecommend"
-                            class="tt-o-toggle__input"
-                            type="checkbox"
-                            id="wouldRecommend"
-                          />
-                          <span class="tt-o-toggle__slider"></span>
-                        </label>
-                      </div>
-
-                      <!-- Nickname -->
-                      <div class="tt-o-field-group tt-u-spacing--xs">
-                        <label class="tt-o-field-group__label" for="nickname">
-                          <span class="tt-o-field-group__label-text">
-                            Nickname
-                          </span>
-                          <span class="tt-o-field-group__required"> *</span>
-                        </label>
-                        <input
-                          v-model="reviewForm.nickname"
-                          class="tt-o-text-field"
-                          type="text"
-                          id="nickname"
-                          name="nickname"
-                          aria-invalid="false"
-                        />
-                      </div>
-
-                      <!-- Email -->
-                      <div class="tt-o-field-group tt-u-spacing--xs">
-                        <label class="tt-o-field-group__label" for="email">
-                          <span class="tt-o-field-group__label-text">Email</span>
-                          <span class="tt-o-field-group__required"> *</span>
-                        </label>
-                        <input
-                          v-model="reviewForm.email"
-                          class="tt-o-text-field"
-                          type="email"
-                          id="email"
-                          name="email"
-                          aria-invalid="false"
-                        />
-                        <div
-                          class="tt-o-hint tt-o-hint--info tt-u-spacing--left--xs"
-                        >
-                          <svg
-                            class="tt-o-icon tt-o-icon--info tt-o-icon--xs tt-o-hint__icon tt-o-hint__icon"
-                            aria-hidden="true"
-                            focusable="false"
-                          >
-                            <use xlink:href="#tt-icon-info"></use>
-                          </svg>
-                          <span class="tt-o-hint__text">
-                            We’ll only use this to contact you about your review
-                          </span>
-                        </div>
-                      </div>
-
-                      <!-- Terms and Conditions Checkbox -->
-                      <div class="tt-o-field-group tt-u-spacing--xs">
-                        <label class="tt-c-check-box__label">
-                          <input
-                            v-model="reviewForm.termsAccepted"
-                            class="tt-c-check-box__input"
-                            type="checkbox"
-                            id="termsAccepted"
-                            name="termsAccepted"
-                            aria-invalid="false"
-                          />
-                          <span class="tt-c-check-box__input__check"></span>
-                          I accept the
-                          <a href="#" class="tt-o-link">terms and conditions</a>
-                          <span class="tt-o-field-group__required"> *</span>
-                        </label>
+                       
                       </div>
 
                       <!-- Submit Button -->
@@ -455,6 +270,32 @@ const formatDate = (dateString: string) => {
   return date.toLocaleDateString('en-US', options);
 };
 
+// const submitReview = () => {
+//   // Print all the form values to check what's being captured
+//   console.log('Rating:', reviewForm.value.rating);
+//   console.log('Review Text:', reviewForm.value.text);
+//   console.log('Nickname:', reviewForm.value.nickname);
+//   console.log('Email:', reviewForm.value.email);
+//   console.log('Terms Accepted:', reviewForm.value.termsAccepted);
+
+//   // Now, check if all the fields are filled correctly
+//   if (!reviewForm.value.rating) {
+//     alert('Please provide a rating.');
+//   } else if (reviewForm.value.text.length < 10) {
+//     alert('Your review must be at least 10 characters long.');
+//   } else if (!reviewForm.value.nickname) {
+//     alert('Please provide a nickname.');
+//   } else if (!reviewForm.value.email) {
+//     alert('Please provide a valid email address.');
+//   } else if (!reviewForm.value.termsAccepted) {
+//     alert('You must accept the terms.');
+//   } else {
+//     // If all fields are filled correctly, submit the form
+//     console.log('Review submitted:', reviewForm.value);
+//     closeReviewModal();
+//   }
+// };
+
 // Fit options
 const fitOptions = ref([
   { label: 'Too small', value: 'too-small' },
@@ -484,13 +325,14 @@ const currentRating = ref(0)   // Holds the selected rating
 const hoverRating = ref(0)     // Holds the hover state
 
 // Function to handle hover effect
-const hoverStars = (rating) => {
+const hoverStars = (rating: any) => {
   hoverRating.value = rating
 }
 
 // Function to handle star click (rating selection)
-const selectRating = (rating) => {
+const selectRating = (rating: any) => {
   currentRating.value = rating
+  console.log(currentRating.value)
 }
 </script>
 
@@ -712,7 +554,7 @@ const selectRating = (rating) => {
 .tt-o-field-group__label {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: -px;
 }
 
 .tt-c-rating__star {
@@ -737,7 +579,7 @@ const selectRating = (rating) => {
 
 .star {
   transition: color 0.3s ease;
-  color: #ccc; /* Default color for empty stars */
+  color: #7D2248; /* Default color for empty stars */
 }
 
 .star:hover,
@@ -746,3 +588,4 @@ const selectRating = (rating) => {
 }
 
 </style>
+
