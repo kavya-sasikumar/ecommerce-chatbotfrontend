@@ -9,12 +9,13 @@
 <script setup>
 const store = useMainStore()
 let cartItems = [];  // No need for type annotations
-const storedCart = localStorage.getItem('cart');
+
 
 defineEmits(['open'])
 
 onBeforeMount(async () => {
     await nextTick();
+    const storedCart = localStorage.getItem('cart');
     if (storedCart) {
         cartItems = JSON.parse(storedCart);
     } else {
