@@ -2,16 +2,25 @@
     <div class="bag" @click="$emit('open')">
         <img class="" src="../../assets/grocery-store.png" alt="move-by-trolley"
             title="cart-trolley">
-        <span class="mb-3" v-if="store.itemsNumber">{{ store.itemsNumber }}</span>
+        <span class="mb-3" v-if="cartItems">{{ cartItems.length }}</span>
     </div>
 </template>
 
-<script setup lang="ts">
-
+<script setup>
 const store = useMainStore()
+let cartItems = [];  // No need for type annotations
+const storedCart = localStorage.getItem('cart');
 
 defineEmits(['open'])
 
+onBeforeMount(async () => {
+    await nextTick();
+    if (storedCart) {
+        cartItems = JSON.parse(storedCart);
+    } else {
+        cartItems = [];
+    }
+});
 </script>
 
 <style scoped lang="scss">

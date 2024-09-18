@@ -260,7 +260,8 @@ const selectedInfo = (index: number): number => {
 function generateStars(rating: any) {
   const totalStars=5
   const fullStars="★".repeat(rating)
-  const emptyStars="☆".repeat(totalStars - rating)
+  const calcss = totalStars - Math.floor(rating)
+  const emptyStars="☆".repeat(calcss)
   return fullStars + emptyStars;
 };
 
@@ -270,31 +271,6 @@ const formatDate = (dateString: string) => {
   return date.toLocaleDateString('en-US', options);
 };
 
-// const submitReview = () => {
-//   // Print all the form values to check what's being captured
-//   console.log('Rating:', reviewForm.value.rating);
-//   console.log('Review Text:', reviewForm.value.text);
-//   console.log('Nickname:', reviewForm.value.nickname);
-//   console.log('Email:', reviewForm.value.email);
-//   console.log('Terms Accepted:', reviewForm.value.termsAccepted);
-
-//   // Now, check if all the fields are filled correctly
-//   if (!reviewForm.value.rating) {
-//     alert('Please provide a rating.');
-//   } else if (reviewForm.value.text.length < 10) {
-//     alert('Your review must be at least 10 characters long.');
-//   } else if (!reviewForm.value.nickname) {
-//     alert('Please provide a nickname.');
-//   } else if (!reviewForm.value.email) {
-//     alert('Please provide a valid email address.');
-//   } else if (!reviewForm.value.termsAccepted) {
-//     alert('You must accept the terms.');
-//   } else {
-//     // If all fields are filled correctly, submit the form
-//     console.log('Review submitted:', reviewForm.value);
-//     closeReviewModal();
-//   }
-// };
 
 // Fit options
 const fitOptions = ref([
@@ -322,7 +298,8 @@ const submitReview = async () => {
         body: review_data,
         headers: { authorization: "Token " + localStorage.getItem("token") }
       })
-      console.log(data.value)
+      //console.log(data.value)
+      reviews.value.unshift(data.value)
       closeReviewModal()
     } catch (error) {
       console.log(error);

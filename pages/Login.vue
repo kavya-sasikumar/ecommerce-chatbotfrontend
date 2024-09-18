@@ -85,9 +85,9 @@ const checkUser = async () => {
       headers: { authorization: "Token " + localStorage.getItem("token") }
     })
     //$toast('This is a success message!', { type: 'success', duration: 3000 });
-    console.log(data.value.results[0].user_id)
-    //localStorage.setItem("user_id", data.value)
-    //navigateTo('/products')
+    //console.log(data.value.results[0].id)
+    localStorage.setItem("user_id", data.value.results[0].id)
+    navigateTo('/products')
   } catch (error) {
     console.log(error)
   }

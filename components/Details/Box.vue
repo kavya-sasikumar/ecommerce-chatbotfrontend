@@ -70,9 +70,10 @@ onMounted(async() => {
 function generateStars(rating: any) {
   const totalStars=5
   const fullStars="★".repeat(rating)
-  const emptyStars="☆".repeat(totalStars - rating)
+  const calcss = totalStars - Math.floor(rating)
+  const emptyStars="☆".repeat(calcss)
   return fullStars + emptyStars;
-}
+};
 </script>
 
 <style scoped lang="scss">
