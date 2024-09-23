@@ -109,21 +109,26 @@ const loadCategoryProducts = async (category) => {
 
 const addToCart = async (product) => {
   let cart = localStorage.getItem('cart');
-  if(cart != null && cart != 'null'){
+  const totalPrice = product.price * 1;
+
+  if (cart != null && cart !== 'null') {
     cart = JSON.parse(cart);
     const existingProduct = cart.find(item => item.id === product.id);
 
     if (existingProduct) {
       existingProduct.qty += 1;
+      existingProduct.totalPrice = existingProduct.qty * existingProduct.price;
     } else {
       product.qty = 1;
+      product.totalPrice = totalPrice;
       cart.push(product);
     }
     cart = JSON.stringify(cart);
     localStorage.setItem('cart', cart);
-  }else{
+  } else {
     cart = [];
     product.qty = 1;
+    product.totalPrice = totalPrice;
     cart.push(product);
     cart = JSON.stringify(cart);
     localStorage.setItem('cart', cart);

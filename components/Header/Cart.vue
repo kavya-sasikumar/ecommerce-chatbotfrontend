@@ -1,35 +1,99 @@
 <template>
   <div>
-    <div :class="['cart', cart.isOpen ? 'on' : '']">
+    <div :class="['cart', cart.isOpen ? 'on' : '']" style="background-color: #7D2248;">
       <div class="cart-menu">
-        <p class="text-center mt-4 pb-2 h3">Cart</p>
+        <p class="text-center mt-4 pb-2 h3" style="font-family: avenir-medium;">Cart ({{ number }})</p>
         <hr>
-        <Notification v-if="!store.itemsNumber">
-          Your cart is empty, try to Add stuff.
+
+        <Notification v-if="number == 0">
+          Your cart is empty, try to add stuff.
         </Notification>
-        <div class="row" v-for="item in store.cartItems" :key="item.id">
-          <CartItem :item="item" />
+
+        <!-- Cart Items -->
+        <div class="cart-item row" v-for="item in store.cartItems" :key="item.id">
+          <div class="col-4">
+            <!-- Product Image -->
+            <img :src="item.image" alt="Product Image" class="product-image">
+          </div>
+          <div class="col-8">
+            <!-- Product Info -->
+            <p style="font-family: avenir-heavy; margin-bottom: 0.2rem !important">{{ item.title }}</p>
+            <p style="font-family: avenir-medium; margin-bottom: 0.2rem !important">Price: ${{ item.price }}</p>
+
+            <!-- Quantity Controls -->
+            <div class="quantity-control">
+              <button @click="decreaseQuantity(item)" class="quantity-btn">-</button>
+              <span class="quantity-display">{{ item.qty }}</span>
+              <button @click="increaseQuantity(item)" class="quantity-btn">+</button>
+            </div>
+          </div>
         </div>
+
+        <!-- Cart Total and Checkout -->
         <div v-if="store.itemsNumber">
           <hr>
-          <CartTotal />
+          <div class="cart-total">
+            <p style="font-family: avenir-medium">Total: ${{ calculateTotal }}</p> 
+          </div>
+          <button class="checkout-button">
+            Checkout
+          </button>
         </div>
       </div>
     </div>
+
     <div :class="['modal', cart.isOpen ? '' : 'off']" @click="$emit('closeCart')"></div>
   </div>
 </template>
 
 <script setup>
-const store = useMainStore()
+import { ref, onMounted, nextTick, computed } from 'vue';
+const store = useMainStore();
+let cartItems = [];  
+let number = ref('0');
 
 const cart = defineProps({
   isOpen: {
     type: Boolean,
     default: false
   }
-})
+});
 
+// Calculate total price based on item quantity and price
+const calculateTotal = computed(() => {
+  if(store.cartItems != null){
+    return store.cartItems.reduce((total, item) => total + (item.price * item.qty), 0);
+  }
+  
+});
+
+// Increase and decrease item quantity
+const increaseQuantity = (item) => {
+  item.qty += 1;
+  updateCart();
+};
+
+const decreaseQuantity = (item) => {
+  if (item.qty > 1) {
+    item.qty -= 1;
+    updateCart();
+  }
+};
+
+const updateCart = () => {
+  localStorage.setItem('cart', JSON.stringify(store.cartItems));
+  number.value = store.cartItems.length;
+};
+
+onMounted(async () => {
+  await nextTick();
+  let storedCart = localStorage.getItem('cart');
+  if (storedCart) {
+    store.cartItems = JSON.parse(storedCart);
+    console.log(storedCart)
+    number.value = store.cartItems.length;
+  }
+});
 </script>
 
 <style scoped>
@@ -43,32 +107,16 @@ const cart = defineProps({
   width: 100%;
   height: 100%;
   overflow: auto;
-  /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0);
-  /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */
 }
 
 .modal.off {
   display: none;
 }
 
-/* Transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 /* Cart Body */
 .cart {
   position: fixed;
-  margin-right: 0px;
   top: 0;
   right: 0;
   width: 360px;
@@ -76,23 +124,17 @@ const cart = defineProps({
   background: #303e49;
   overflow-y: auto;
   z-index: 1051;
-  -webkit-overflow-scrolling: touch;
   transform: translateX(360px);
-  transition-property: transform;
-  transition-duration: 0.4s;
+  transition: transform 0.4s;
 }
 
 .cart.on {
   transform: translateX(0);
-  -webkit-overflow-scrolling: touch;
-  transition-property: transform;
-  transition-duration: 0.4s;
 }
 
 .cart-menu {
   color: #eee;
-  margin-left: 10px;
-  margin-right: 15px;
+  margin: 10px 15px;
 }
 
 hr {
@@ -100,7 +142,68 @@ hr {
 }
 
 .row {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+}
+
+quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+.quantity-btn {
+  background-color: #ffffff;
+  color: #7D2248;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  margin: 0 2px;
+}
+
+.quantity-display {
+  margin: 0 8px;
+  font-size: 1rem;
+  color: #ffffff;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Cart Total */
+.cart-total {
+  text-align: right;
+  font-size: 1.2rem;
+  margin-right: 15px;
+}
+
+/* Checkout Button */
+.checkout-button {
+  background-color: #ffffff;
+  color: #7D2248;
+  width: 100%;
+  padding: 10px;
+  margin-right: 10rem;
+  border: none;
+  cursor: pointer;
+  font-family: avenir-heavy;
 }
 </style>

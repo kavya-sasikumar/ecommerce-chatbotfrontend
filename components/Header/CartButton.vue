@@ -2,26 +2,39 @@
     <div class="bag" @click="$emit('open')">
         <img class="" src="../../assets/grocery-store.png" alt="move-by-trolley"
             title="cart-trolley">
-        <span class="mb-3" v-if="cartItems">{{ cartItems.length }}</span>
+        <span class="mb-3" v-if="cartItems">{{ number }}</span>
     </div>
 </template>
 
 <script setup>
 const store = useMainStore()
 let cartItems = [];  // No need for type annotations
+let number = ref('0')
 
 
-defineEmits(['open'])
+//defineEmits(['open'])
 
-onBeforeMount(async () => {
-    await nextTick();
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-        cartItems = JSON.parse(storedCart);
-    } else {
-        cartItems = [];
-    }
+const updateCartCount = async () => {
+await nextTick();
+  let storedCart = localStorage.getItem('cart');
+  if (storedCart) {
+    let cartItems = JSON.parse(storedCart);
+    number.value = cartItems.length;
+  }
+};
+
+onMounted(async () => {
+  await nextTick();
+  updateCartCount();
 });
+
+// Handle event from parent component to update cart count
+defineEmits(['open', 'update-cart-count']);
+watch(async () => {
+    await nextTick();
+    updateCartCount();
+});
+
 </script>
 
 <style scoped lang="scss">
