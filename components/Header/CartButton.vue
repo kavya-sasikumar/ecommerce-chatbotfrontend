@@ -7,33 +7,49 @@
 </template>
 
 <script setup>
+const { $eventBus } = useNuxtApp()
 const store = useMainStore()
 let cartItems = [];  // No need for type annotations
-let number = ref('0')
+let number = ref(0)
 
-
+ 
 //defineEmits(['open'])
 
-const updateCartCount = async () => {
-await nextTick();
+const updateCartCount = () => {
   let storedCart = localStorage.getItem('cart');
   if (storedCart) {
-    let cartItems = JSON.parse(storedCart);
+    cartItems = JSON.parse(storedCart);
     number.value = cartItems.length;
+  } else {
+    number.value = 0;
   }
 };
 
 onMounted(async () => {
   await nextTick();
   updateCartCount();
+  if (!$eventBus['update-cart-count']) {
+    $eventBus['update-cart-count'] = [];
+  }
+  $eventBus['update-cart-count'].push(updateCartCount);
+});
+
+onBeforeUnmount(() => {
+  const index = $eventBus['update-cart-count'].indexOf(updateCartCount);
+  if (index > -1) {
+    $eventBus['update-cart-count'].splice(index, 1);
+  }
 });
 
 // Handle event from parent component to update cart count
 defineEmits(['open', 'update-cart-count']);
-watch(async () => {
-    await nextTick();
-    updateCartCount();
-});
+
+// Listen for the update-cart-count event
+const updateCartCountHandler = () => {
+  updateCartCount();
+};
+
+defineExpose({ updateCartCountHandler });
 
 </script>
 

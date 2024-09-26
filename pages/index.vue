@@ -2,7 +2,7 @@
   <main>
     <HomeCarousel />
     <HomeAboutUs />
-    <UNotifications />
+  <!-- <UNotifications /> -->
   </main>
 </template>
 

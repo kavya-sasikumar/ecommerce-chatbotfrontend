@@ -32,7 +32,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useMainStore } from '@/store' // Make sure the store path is correct
+const { $eventBus } = useNuxtApp()
+// import { useMainStore } from '@/store' // Make sure the store path is correct
 
 const store = useMainStore()
 
@@ -71,22 +72,24 @@ const addToCart = async (product) => {
       product.totalPrice = totalPrice;
       cart.push(product);
     }
-    cart = JSON.stringify(cart);
-    localStorage.setItem('cart', cart);
-    store.setCartItems(cart);
-    store.updateItemsNumber();
   } else {
     cart = [];
     product.qty = quantity.value;
     product.totalPrice = totalPrice;
     cart.push(product);
-    cart = JSON.stringify(cart);
-    localStorage.setItem('cart', cart);
-    store.setCartItems(cart);
-    store.updateItemsNumber();
   }
+  
+  cart = JSON.stringify(cart);
+  localStorage.setItem('cart', cart);
+  
+  // Emit events to update the cart
   emit('open');
-  emit('update-cart-count');
+  let itemm = {}
+  emit('update-cart-count', itemm);
+  if (!$eventBus['update-cart-count']) {
+    $eventBus['update-cart-count'] = [];
+  }
+  $eventBus['update-cart-count'].forEach(callback => callback({ data: 'Some data' }));
 }
 
 // Lifecycle hook

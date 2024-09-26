@@ -35,7 +35,7 @@
           <div class="cart-total">
             <p style="font-family: avenir-medium">Total: ${{ calculateTotal }}</p> 
           </div>
-          <button class="checkout-button">
+          <button class="checkout-button" @click="checkout">
             Checkout
           </button>
         </div>
@@ -48,6 +48,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick, computed } from 'vue';
+const { $eventBus } = useNuxtApp()
 const store = useMainStore();
 let cartItems = [];  
 let number = ref('0');
@@ -85,6 +86,44 @@ const updateCart = () => {
   number.value = store.cartItems.length;
 };
 
+const updateCartCount = () => {
+  let storedCart = localStorage.getItem('cart');
+  store.cartItems = JSON.parse(storedCart);
+  number.value = store.cartItems.length;
+};
+
+const checkout = async () => {
+  try {
+    //isLoading.value = true;
+    const order = {
+      "user": localStorage.getItem('user_id'), 
+      "address": "1234", 
+      "total_amount": calculateTotal,
+      items: store.cartItems.map(item => ({
+        product: item.id, 
+        quantity: item.qty,
+        price: item.price
+      }))  
+    }
+    const { data, error } = await useFetch('http://localhost:8000/api/v1/create-order/', {
+      method: 'POST',
+      body: order,
+      headers: { authorization: "Token " + localStorage.getItem("token") }
+    })
+    console.log(data.value)
+    if (error.value) {
+      throw new Error(error.value.message)
+    }
+    //isLoading.value = false;
+    //console.log(isLoading.value)
+    
+  } catch (error) {
+    //isLoading.value = false;
+    console.error('Order Placement Failed:', error.response ? error.response.data : error.message)
+    alert('Error Getting Products');
+  }
+}
+
 onMounted(async () => {
   await nextTick();
   let storedCart = localStorage.getItem('cart');
@@ -93,7 +132,19 @@ onMounted(async () => {
     console.log(storedCart)
     number.value = store.cartItems.length;
   }
+  if (!$eventBus['update-cart-count']) {
+    $eventBus['update-cart-count'] = [];
+  }
+  $eventBus['update-cart-count'].push(updateCartCount);
 });
+
+onBeforeUnmount(() => {
+  const index = $eventBus['update-cart-count'].indexOf(updateCartCount);
+  if (index > -1) {
+    $eventBus['update-cart-count'].splice(index, 1);
+  }
+});
+
 </script>
 
 <style scoped>

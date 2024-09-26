@@ -9,7 +9,7 @@
       <div class="navbar-group">
         <HeaderSearchBar />
         <HeaderProfile />
-        <HeaderCartButton @open="cartState" />
+        <HeaderCartButton @open="cartState" @update-cart-count="updateCartCount"/>
       </div>
     </nav>
     <!--User Modal-->
@@ -24,6 +24,13 @@
 const cart = ref(false)
 
 const cartState = () => cart.value = !cart.value;
+
+const updateCartCount = () => {
+  console.log('in here')
+  if (cartButton.value) {
+    cartButton.value.updateCartCountHandler();
+  }
+};
 
 </script>
 
