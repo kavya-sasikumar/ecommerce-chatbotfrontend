@@ -64,7 +64,7 @@ const cart = defineProps({
 const calculateTotal = computed(() => {
   if(store.cartItems != null){
     return store.cartItems.reduce((total, item) => total + (item.price * item.qty), 0);
-  }
+  } 
   
 });
 

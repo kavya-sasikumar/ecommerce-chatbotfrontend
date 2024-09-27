@@ -2,11 +2,13 @@
   <main>
     <HomeCarousel />
     <HomeAboutUs />
-  <!-- <UNotifications /> -->
+  <UNotifications />
+   <FashionChat />
   </main>
 </template>
 
 <script setup>
+import FashionChat from '~/components/FashionChat.vue'
 definePageMeta({
   title: 'Home'
 })
